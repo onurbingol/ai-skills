@@ -1,0 +1,56 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+        args: [--fix=lf]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.10
+    hooks:
+      # Run the linter
+      - id: ruff-check
+        args: [--fix]
+        files: ^scripts/.*\.py$
+      # Run the formatter
+      - id: ruff-format
+        files: ^scripts/.*\.py$
+
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.22.0
+    hooks:
+      - id: markdownlint-cli2
+        args: [--config, .markdownlint-cli2.yaml, --fix]
+        files: \.md$
+
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.37.1
+    hooks:
+      - id: check-jsonschema
+        name: Validate docker-compose schema
+        args:
+          [
+            "--schemafile",
+            "https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json",
+          ]
+        files: (^|/)(docker-compose\.ya?ml|compose\.ya?ml)$
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.38.0
+    hooks:
+      - id: yamllint
+        name: Lint docker-compose style
+        files: (^|/)(docker-compose\.ya?ml|compose\.ya?ml)$
+        args: ["-c", ".yamllint.yaml"]
+
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.14.0
+    hooks:
+      - id: hadolint
+        args: ["--config", ".hadolint.yaml"]
+        files: (^|/)([Dd]ockerfile|.*\.Dockerfile)$

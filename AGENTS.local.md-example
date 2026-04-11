@@ -1,0 +1,12 @@
+# AGENTS (Local Overrides)
+
+## Python
+- Documentation: skills/experimental_python_docs.md
+- Testing: skills/property_based_testing.md
+
+## Rust
+- Development: skills/bootstrap_rust_development.md
+
+## Aliases
+- py_test: python_testing
+- review: engineering_review

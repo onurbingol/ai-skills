@@ -1,0 +1,15 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+
+  skill-eval:
+    image: python:3.12-slim
+    working_dir: /workspace
+    environment:
+      LLM_EVAL_API_URL: http://ollama:11434/api/chat
+      LLM_EVAL_MODEL: ${LLM_EVAL_MODEL:-qwen3.5:0.8b}
+    volumes:
+      - ../..:/workspace
+    command: ["python", "scripts/ci/evaluate_skills.py", "/workspace"]

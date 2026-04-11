@@ -1,0 +1,48 @@
+name: Evaluate skills
+
+on:
+  workflow_dispatch:
+    inputs:
+      llm_model:
+        description: "Ollama model name for evaluation"
+        required: false
+        default: "qwen3.5:0.8b"
+
+jobs:
+  llm-routing-eval:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      LLM_EVAL_MODEL: ${{ github.event.inputs.llm_model }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+
+      - name: Start Ollama service
+        run: docker compose -f scripts/ci/docker-compose.yml up -d ollama
+
+      - name: Wait for Ollama readiness
+        run: |
+          for i in $(seq 1 60); do
+            if curl -fsS http://localhost:11434/api/tags >/dev/null; then
+              echo "Ollama is ready"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Ollama did not become ready in time" >&2
+          exit 1
+
+      - name: Pull evaluation model
+        run: |
+          curl -fsS http://localhost:11434/api/pull \
+            -H "Content-Type: application/json" \
+            -d "{\"name\":\"${LLM_EVAL_MODEL}\",\"stream\":false}"
+
+      - name: Run LLM routing evaluation
+        run: docker compose -f scripts/ci/docker-compose.yml run --rm skill-eval
+
+      - name: Tear down containers
+        if: always()
+        run: docker compose -f scripts/ci/docker-compose.yml down -v

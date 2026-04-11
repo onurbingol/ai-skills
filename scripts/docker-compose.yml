@@ -1,0 +1,26 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+
+  skill-review:
+    image: python:3.12-slim
+    working_dir: /workspace
+    environment:
+      OLLAMA_API_URL: http://ollama:11434/api/chat
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen3.5:0.8b}
+      SKILL_KEY: ${SKILL_KEY:-python_testing}
+      REVIEW_PROMPT: ${REVIEW_PROMPT:-Review the provided files according to selected skills.}
+      TARGET_FILE: ${TARGET_FILE:-}
+    volumes:
+      - ..:/workspace
+    command:
+      - sh
+      - -lc
+      - >-
+        if [ -n "$$TARGET_FILE" ]; then
+          python scripts/execute_skill.py /workspace --skill "$$SKILL_KEY" --prompt "$$REVIEW_PROMPT" --file "$$TARGET_FILE";
+        else
+          python scripts/execute_skill.py /workspace --skill "$$SKILL_KEY" --prompt "$$REVIEW_PROMPT";
+        fi

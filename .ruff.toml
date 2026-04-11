@@ -1,0 +1,9 @@
+line-length = 180
+
+[lint]
+select = ["E", "F"]
+
+[format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"

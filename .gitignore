@@ -1,0 +1,14 @@
+# Visual Studio
+.vs*/
+
+# Environment files
+.venv/
+
+# macOS
+.DS_Store
+
+# Local configuration files
+AGENTS.local.md
+
+# Private directories
+.plans/
