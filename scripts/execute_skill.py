@@ -296,7 +296,7 @@ def parse_args() -> argparse.Namespace:
         "--timeout",
         type=int,
         default=int(os.environ.get("OLLAMA_TIMEOUT", "600")),
-        help="Request timeout in seconds",
+        help="Request timeout in seconds (default 600 = 10 minutes)",
     )
     return parser.parse_args()
 

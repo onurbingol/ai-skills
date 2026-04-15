@@ -9,6 +9,7 @@ services:
     working_dir: /workspace
     environment:
       OLLAMA_API_URL: http://ollama:11434/api/chat
+      OLLAMA_TIMEOUT: ${OLLAMA_TIMEOUT:-600}
       OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen3.5:0.8b}
       SKILL_KEY: ${SKILL_KEY:-python_testing}
       REVIEW_PROMPT: ${REVIEW_PROMPT:-Review the provided files according to selected skills.}
