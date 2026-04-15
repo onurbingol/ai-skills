@@ -18,7 +18,7 @@ debugging, engineering review, and delivery engineering.
 
 ## License
 
-- All code listed on this repository licensed under the __Apache License 2.0__ unless otherwise specified.
+- All code in this repository is licensed under the __Apache License 2.0__ unless otherwise specified.
 - [AGENTS.behavioral.md](AGENTS.behavioral.md) is sourced from
  [andrej-karpathy-skills repository](https://github.com/forrestchang/andrej-karpathy-skills)
  and licensed under the MIT License.

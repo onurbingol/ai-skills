@@ -17,7 +17,7 @@ Examples:
 
 Return one or more bootstrap file paths under skills/.
 
-If a key cannot be resolved, return an explicit error with nearest valid keys.
+If a key cannot be resolved, return an explicit error with the nearest valid keys.
 
 ## Canonical Key Rules
 
