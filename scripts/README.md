@@ -18,20 +18,22 @@ Default behavior:
 - If --file is omitted, uses bootstrap file(s) resolved from --skill as target file(s).
 - You can still pass one or more --file values for specific files to review.
 
-If Ollama is running elsewhere or you want a different model, set:
+`execute_skill.py` defaults to Ollama’s native chat API at `http://localhost:11434/api/chat`. Optional overrides when running on the host:
 
 ```bash
-export OLLAMA_API_URL="http://localhost:11434/v1/chat/completions"
 export OLLAMA_MODEL="qwen3.5:0.8b"
+# Only if you use an OpenAI-compatible URL (for example some proxies or toolchains):
+# export OLLAMA_API_URL="http://localhost:11434/v1/chat/completions"
 ```
 
-Environment variables used by scripts/docker-compose.yml:
+Environment variables used by `scripts/docker-compose.yml` for the `skill-review` service:
 
-- OLLAMA_API_URL: OpenAI-compatible Ollama endpoint used by the review script.
+- OLLAMA_API_URL: Default `http://ollama:11434/api/chat` (Ollama native); override if you need another base URL or an OpenAI-compatible path.
+- OLLAMA_TIMEOUT: HTTP request timeout in seconds (default `600` = 10 minutes).
 - OLLAMA_MODEL: Model name passed to the API.
 - SKILL_KEY: Default skill key for compose-based review runs.
 - REVIEW_PROMPT: Default review task prompt for compose-based review runs.
-- TARGET_FILE: Optional target file path; when set, compose includes --file <TARGET_FILE>.
+- TARGET_FILE: Optional target file path; when set, compose includes `--file <TARGET_FILE>`.
 
 You can also run via Docker Compose:
 
